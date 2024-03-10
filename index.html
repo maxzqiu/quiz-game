@@ -5,9 +5,22 @@
 </head>
 
 <body>
-    <div  id="quiz-container">
-
+    <div id="quiz-options-container">
+        
+        <label for="difficulty">Choose a difficulty: </label>
+        <select name="difficulty "id="difficulty">
+            <option selected="selected" value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+        </select>
+        <br>
+        <label for="number">Enter number of problems: </label>
+        <input name="number" type="number" id="num-problems" max="50" min="1">
+        <br>
+        <button id="start">Start Game</button>
+    </div>
     
+    <div  id="quiz-container" class="hidden">
         <p id="question">QUESTION</p>
         <button id="choice-1">CHOICE1</button>
         <button id="choice-2">CHOICE2</button>
