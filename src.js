@@ -1,4 +1,4 @@
-let TIME_LIMIT=30
+
 const URL = "https://opentdb.com/api.php?"
 const QUESTION = document.querySelector("#question")
 const BUTTON1 = document.querySelector("#choice-1")
@@ -10,9 +10,12 @@ const QUIZ_OPTIONS = document.querySelector("#quiz-options-container")
 const DIFFICULTY = document.querySelector("#difficulty")
 const START = document.querySelector("#start")
 const NUMBER = document.querySelector("#num-problems")
+const QUESTION_NUMBER = document.querySelector("#question-number")
+const LOADER = document.querySelector("#loader")
 
 const BUTTONS = [BUTTON1, BUTTON2, BUTTON3, BUTTON4]
 const QUIZ_CONTAINER = document.querySelector("#quiz-container")
+
 
 // Fisher-Yates Shuffle
 function shuffle(list){
@@ -33,7 +36,7 @@ function shuffle(list){
     }
 }
 
-function updateQuestions(data){
+function updateQuestions(data, question_number){
     let correct_i=Math.random()
     correct_i=correct_i*4
     correct_i=Math.floor(correct_i)
@@ -46,12 +49,14 @@ function updateQuestions(data){
            
         }
     }
+    console.log(data)
     for (i=0;i<3;i+=1){
         incorrect[i].innerHTML=data["incorrect_answers"][i]
     }
     BUTTONS[correct_i].innerHTML=data["correct_answer"]
 
     QUESTION.innerHTML = data["question"]
+    QUESTION_NUMBER.textContent=question_number+1
 }
 
 function displayScore(data,selected_choices){
@@ -67,7 +72,10 @@ function displayScore(data,selected_choices){
     let score_display=document.createElement("p")
     score_display.textContent="Your Score: "+ score.toString() + " / " + len.toString();
     QUIZ_CONTAINER.appendChild(score_display)
-    console.log(selected_choices)
+    let restart_button = document.createElement("button")
+    QUIZ_CONTAINER.appendChild(restart_button)
+    restart_button.textContent="New Game"
+    restart_button.onclick = () => location.reload()
 }
 
 function start_countdown(time,data,selected_choices){
@@ -89,7 +97,9 @@ function start_countdown(time,data,selected_choices){
 }
 
 
-async function getQuestion(amount, difficulty) {
+async function getQuestion(amount, difficulty, TIME_LIMIT) {
+    QUIZ_OPTIONS.classList.add("hidden")
+    LOADER.classList.remove("hidden")
     let query = new URLSearchParams({
         type:"multiple",
         amount:amount,
@@ -102,20 +112,24 @@ async function getQuestion(amount, difficulty) {
     let selected_choices=[];
     console.log(data["results"])
     
-    updateQuestions(data["results"][question_number])
+    updateQuestions(data["results"][question_number], question_number)
     start_countdown(TIME_LIMIT,data,selected_choices)
     for (let button of BUTTONS){
         button.onclick = () => {
+
             question_number+=1
             selected_choices.push(button.textContent);
-            if (question_number===amount){
+            if (question_number==amount){
                 displayScore(data,selected_choices);
             } else{
-                updateQuestions(data["results"][question_number])
+                updateQuestions(data["results"][question_number], question_number)
             }
             
         }
     }
+
+    LOADER.classList.add("hidden")
+    QUIZ_CONTAINER.classList.remove("hidden")
     
 }
 
@@ -124,7 +138,10 @@ START.onclick = () => {
         alert("Input is not valid. ")
         return;
     }
-    getQuestion(NUMBER.value, DIFFICULTY.value)
-    QUIZ_CONTAINER.classList.remove("hidden")
-    QUIZ_OPTIONS.classList.add("hidden")
+    let TIME_LIMIT=parseInt(NUMBER.value)*10
+    console.log(TIME_LIMIT)
+    getQuestion(NUMBER.value, DIFFICULTY.value, TIME_LIMIT)
+    
 }
+
+// First use '==='. If that doesn't work use '=='

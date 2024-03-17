@@ -5,27 +5,40 @@
 </head>
 
 <body>
-    <div id="quiz-options-container">
+    <div id="loader" class="hidden"></div>
+    <div class="quiz-options-container" id="quiz-options-container">
+        <div class="center">
+            <label for="difficulty">Choose a difficulty: </label>
+            <select class="interactive "name="difficulty "id="difficulty">
+                <option selected="selected" value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+        </div>
         
-        <label for="difficulty">Choose a difficulty: </label>
-        <select name="difficulty "id="difficulty">
-            <option selected="selected" value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
-        </select>
         <br>
-        <label for="number">Enter number of problems: </label>
-        <input name="number" type="number" id="num-problems" max="50" min="1">
+        <div class="center">
+            <label for="number">Enter number of problems: </label>
+            <input class="interactive" name="number" type="number" id="num-problems" max="50" min="1" value="5">
+        </div>
+        
         <br>
-        <button id="start">Start Game</button>
+        <div class="center">
+            <button class="interactive" id="start">Start Game</button>
+        </div>
+        
     </div>
     
-    <div  id="quiz-container" class="hidden">
+    <div  id="quiz-container" class="hidden" class="center">
+        <h2>Question #<span id="question-number">NUM</span></h2>
         <p id="question">QUESTION</p>
-        <button id="choice-1">CHOICE1</button>
-        <button id="choice-2">CHOICE2</button>
-        <button id="choice-3">CHOICE3</button>
-        <button id="choice-4">CHOICE4</button>
-        <p> <span id="timer">30</span> seconds</p>
+        <div>
+            <button id="choice-1">CHOICE1</button>
+            <button id="choice-2">CHOICE2</button>
+            <button id="choice-3">CHOICE3</button>
+            <button id="choice-4">CHOICE4</button>
+        </div>
+        
+        <p> <b>TIME REMAINING:</b> <span id="timer">LOADING</span> seconds</p>
     </div>
 </body>

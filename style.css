@@ -1,3 +1,39 @@
+#loader{
+    position:absolute;
+    top:50%; /* Move to the center of the screen */
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:40px;
+    height:40px;
+    border: 5px solid gray;
+    border-radius:50%;
+    border-top-color: skyblue;
+    animation:spin 1s ease infinite;
+    /*transform:rotate(50deg) */
+}
+
+@keyframes spin{
+    from { transform: rotate(0deg)}
+    to {transform: rotate(360deg)}
+}
+
 .hidden{
     display:none
 }
+
+.center{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.quiz-options-container,p{
+    font-size:30px;
+    font-family:"Calibri";
+}
+
+.interactive{
+    width:90px;
+    height:30px;
+}
+
